@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import scrapy
 from scrapy.loader import ItemLoader 
 from crawl3.items import ImageItem
@@ -22,7 +24,7 @@ class RosiSpider(scrapy.Spider):
             if not a:
                 continue
             next_page = response.urljoin(a)
-            print next_page
+            print(next_page)
             yield scrapy.Request(next_page, callback=self.parse)
 
     def parse_item(self, response):
