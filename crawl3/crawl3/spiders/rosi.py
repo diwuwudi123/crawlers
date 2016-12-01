@@ -8,15 +8,13 @@ class RosiSpider(scrapy.Spider):
     name = "rosi"
     allowed_domains = ['rosiok.com']
     start_urls = [
-        'http://www.rosiok.com/',
+        'http://www.rosiok.com/x/',
     ]
 
     def start_requests(self):
         for u in self.start_urls:
-            yield scrapy.Request(u, callback=self.parse,
-                                    errback=self.errback,
-                                    dont_filter=True)
-
+            yield scrapy.Request(u, callback=self.parse, errback=self.errback, dont_filter=True)
+            return False
 
     def parse(self, response):
         yield self.parse_item(response) # ok
@@ -25,7 +23,7 @@ class RosiSpider(scrapy.Spider):
                 continue
             next_page = response.urljoin(a)
             print(next_page)
-            yield scrapy.Request(next_page, callback=self.parse)
+            # yield scrapy.Request(next_page, callback=self.parse)
 
     def parse_item(self, response):
         il = ItemLoader(item=ImageItem(), response=response)
